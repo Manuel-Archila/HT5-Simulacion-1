@@ -112,3 +112,18 @@ for i in range(Canti_Pro):
   #Se llama a la función que controla todo
   env.process(SistemaOperativoSO('Operacion %d' %i, env, RAM_Capacity, MemRam, Total_I, CreationPro, VelocidadCPU * TiempoIns))
 
+#Se inicia la simulación, se detendrá hasta que se acaben los procesos
+env.run()
+
+#Finaliza la simulación, se hacen cálculos y se imprimen resultados
+print()
+
+#Calculo del promedio de tiempo de los procesos
+PromedioT = (TiempoTotal/Canti_Pro)
+PromedioT = round(PromedioT, 3)
+print("El promedio de tiempo en los procesos fue de: ", PromedioT, " unidades de tiempo")
+
+#Calculo de la desviacion estandar del tiempo
+desviacion = statistics.stdev(tiempos)
+desviacion = round(desviacion, 3)
+print("La desviacion estandar del tiempo promedio fue de: " + str(desviacion) + " unidades de tiempo")
