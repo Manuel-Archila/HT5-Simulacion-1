@@ -89,3 +89,26 @@ def SistemaOperativoSO(nombre, env, RAM_Total, RAM_Process, InstruccionesTot, Pr
   TiempoTotal += (env.now - T_Ingreso)
   #Se agrega a una lista cada tiempo para poder sacar la desviación estandar con stadistics posteriormente
   tiempos.append(env.now - T_Ingreso)
+
+#Ambiente
+
+env = simpy.Environment()
+#Parámetros de la simulación
+IO_Operations = simpy.Resource(env, capacity = 2) #2, 1 por entrada y otro para salida
+RAM_Capacity = simpy.Container(env, RAM_Tot, RAM_Tot)
+CPU = simpy.Resource(env, capacity = 1)
+
+#Semilla que utilizará la simulación
+random.seed(300)
+
+#Se coloca dentro del paréntesis la cantidad de procesos
+for i in range(Canti_Pro):
+  # Número de instrucciones que realizaran los procesos
+  Total_I = random.randint(1,10)
+  # Solicitud de memoria RAM para cada proceso
+  MemRam = random.randint(1, 10)
+  # Creación de procesos
+  CreationPro = random.expovariate(1.0/Total_P)
+  #Se llama a la función que controla todo
+  env.process(SistemaOperativoSO('Operacion %d' %i, env, RAM_Capacity, MemRam, Total_I, CreationPro, VelocidadCPU * TiempoIns))
+
